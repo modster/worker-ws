@@ -1,4 +1,7 @@
-const html = `
+import data from './data.js';
+const { symbol, side, type, quantity, price } = data;
+const timestamp = new Date().getTime();
+/* const html = `
 <style>
   body {
     margin: 1rem;
@@ -85,12 +88,52 @@ const html = `
     document.querySelector("#error").innerHTML = message ? message : ""
   }
 </script>
+ `; */
+
+/**
+ * a simple HTML template, no websockets, no buttons, no nothing
+ */
+const html = `
+<html>
+  <head>
+    <title>Home</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/ws">ws</a></li>
+            <li><a href="/sign">sign</a></li>
+            <li><a href="/tradeRest">tradeRest</a></li>
+            <li><a href="/test">test</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="content">
+        <h1>Home</h1>
+        <p>symbol: ${symbol}</p>
+        <p>side: ${side}</p>
+        <p>type: ${type}</p>
+        <p>quantity: ${quantity}</p>
+        <p>price: ${price}</p>
+        <p>timestamp: ${timestamp}</p>
+        <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.
+        </p>
+      </div>
+      <div class="footer">
+        <p>&copy; 2123 - All Right Reserved</p>
+      </div>
+    </div>
+  </body>
+</html>
 `;
 
 export default () => {
-	return new Response(html, {
-		headers: {
-			'Content-type': 'text/html; charset=utf-8',
-		},
-	});
+  return new Response(html, {
+    headers: {
+      'Content-type': 'text/html; charset=utf-8',
+    },
+  });
 };

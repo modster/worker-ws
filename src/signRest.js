@@ -1,52 +1,32 @@
 /**
- * 
- * @param {URL} params 
- * @returns 
+ * @function signRest
+ * @description Signs request params with HMAC SHA256
+ * @param { URLSearchParams } params 
+ * @returns { String } hex
  */
-export default async function signRest(params, secret) {
-  const dataToEncode = params.toString();
-  const encoder = new TextEncoder();
-  // const secret = TESTNET_SECRET;
-  const secretKeyData = encoder.encode(secret);
-  const apiSecret = await crypto.subtle.importKey(
+
+async function signRest(params, secret) {
+  const secretKeyData = new TextEncoder().encode(secret);
+  const newSecret = await crypto.subtle.importKey(
     "raw",
     secretKeyData,
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign"]
   );
-
+  const enc = new TextEncoder();
+  // const dataToEncode = params.toString();
   const mac = await crypto.subtle.sign(
     "HMAC",
-    apiSecret,
-    encoder.encode(dataToEncode)
-  );
+    newSecret,
+    enc.encode(params.toString())
+  )
+
   const hex = Array.from(new Uint8Array(mac))
-  .map(b => b.toString(16).padStart(2, '0'))
-  .join('');
-  console.log(hex);
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+
   return hex;
-} 
- //      // `mac` is an ArrayBuffer, so you need to make a few changes to get
-      // it into a ByteString, and then a Base64-encoded string.
-      // let base64Mac = btoa(String.fromCharCode(...new Uint8Array(mac)));
-      // must convert "+" to "-" as urls encode "+" as " "
-      // base64Mac = base64Mac.replaceAll("+", "-");
-      // url.searchParams.set("mac", base64Mac);
-      // url.searchParams.set("expiry", expiry);
+}
 
-      // return new Response(url);
-    // }
-
-    // const url = new URL(request.url);
-    // const prefix = "/generate/";
-    // if (url.pathname.startsWith(prefix)) {
-      // Replace the "/generate/" path prefix with "/verify/", which we
-      // use in the first example to recognize authenticated paths.
-      // url.pathname = `/verify/${url.pathname.slice(prefix.length)}`;
-      // return await generateSignedUrl(url);
-    // } else {
-      // return fetch(request);
-    // }
-  // },
-// };
+export default signRest;
