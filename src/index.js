@@ -13,7 +13,6 @@ export default {
    */
   async fetch(req, env) {
     const secret = env.TESTNET_SECRET;
-    console.log(secret);
     try {
       const url = new URL(req.url);
       const timestamp = Date.now();
@@ -30,6 +29,11 @@ export default {
           return new Response(url.toString());
         default:
           return new Response('Not found', { status: 404 });
+
+        case '/test':
+          const body = await url.searchParams.toString();
+
+          return new Response(body);
       }
     } catch (err) {
 			/** @type {Error} */ let e = err;

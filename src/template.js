@@ -107,7 +107,7 @@ const html = `
             <li><a href="/ws">ws</a></li>
             <li><a href="/sign">sign</a></li>
             <li><a href="/tradeRest">tradeRest</a></li>
-            <li><a href="/test">test</a></li>
+            <li><a href="/test?symbol=BTCUSDT&side=BUY&type=LIMIT&quantity=0.01&price=10000&recvWindow=5000&">test</a></li>
           </ul>
         </div>
       </div>
