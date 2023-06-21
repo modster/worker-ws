@@ -1,9 +1,9 @@
 /**
- * @function signRest
- * @description Signs request params with HMAC SHA256
- * @param { URLSearchParams } params 
- * @returns { String } hex
- */
+* @function signRest
+* @description Signs request params with HMAC SHA256
+* @param { URLSearchParams } params 
+* @returns { String } hex
+*/
 
 async function signRest(params, secret) {
   const secretKeyData = new TextEncoder().encode(secret);

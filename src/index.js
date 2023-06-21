@@ -1,9 +1,9 @@
 
 import template from './template';
 // import { Buffer } from 'node:buffer';
-
 import websocketHandler from './websocketHandler';
 import signRest from './signRest';
+import signReq from './signReq';
 
 let count = 0;
 
@@ -17,18 +17,28 @@ export default {
       const url = new URL(req.url);
       const timestamp = Date.now();
       switch (url.pathname) {
+
         case '/':
           return template();
+
         case '/ws':
           return await websocketHandler(req);
 
         case '/sign':
-          url.searchParams.append('timestamp', timestamp);
-          const res = await signRest(url.search, secret);
-          url.searchParams.append('signature', res);
-          return new Response(url.toString());
-        default:
-          return new Response('Not found', { status: 404 });
+          const entries = url.searchParams.entries();
+          signReq(entries, secret)
+            .then((res) => {
+              return new Response(JSON.stringify(res));
+            })
+            .catch((err) => {
+              return new Response(JSON.stringify(err));
+            });
+
+
+
+
+
+
 
         case '/test':
           const urlParams = url.searchParams.entries();
@@ -36,7 +46,6 @@ export default {
           for await (const [key, value] of urlParams) {
             params.push(`${key}: ${value}`);
           }
-
           params.push(`timestamp: ${timestamp}`);
           signRest(params, secret)
             .then((res) => {
@@ -46,7 +55,10 @@ export default {
               params.push(`signature: ${err}`);
             });
           return new Response(JSON.stringify(params))
-        // return new Response(params);
+
+        default:
+          return new Response('Not found', { status: 404 });
+
       }
     } catch (err) {
 			/** @type {Error} */ let e = err;
