@@ -31,9 +31,22 @@ export default {
           return new Response('Not found', { status: 404 });
 
         case '/test':
-          const body = await url.searchParams.toString();
+          const urlParams = url.searchParams.entries();
+          const params = [];
+          for await (const [key, value] of urlParams) {
+            params.push(`${key}: ${value}`);
+          }
 
-          return new Response(body);
+          params.push(`timestamp: ${timestamp}`);
+          signRest(params, secret)
+            .then((res) => {
+              params.push(`signature: ${res}`);
+            })
+            .catch((err) => {
+              params.push(`signature: ${err}`);
+            });
+          return new Response(JSON.stringify(params))
+        // return new Response(params);
       }
     } catch (err) {
 			/** @type {Error} */ let e = err;
