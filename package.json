@@ -7,7 +7,8 @@
 		"start-stackblitz": "WRANGLER_SEND_METRICS=false wrangler dev index.js --local"
 	},
 	"devDependencies": {
-		"eslint": "^8.7.0",
+		"@antfu/eslint-config": "^0.39.5",
+		"eslint": "^8.43.0",
 		"prettier": "^2.5.1",
 		"wrangler": "2.0.23"
 	}
