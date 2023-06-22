@@ -28,52 +28,17 @@ export default {
         case '/sign':
           const obj = {};
           const searchParams = new URLSearchParams(url.searchParams.entries());
-          searchParams.sort();
+          searchParams.sort();//<---------------------------------------------- might be trubble
 
           for (const p of searchParams) {
             obj[p[0]] = p[1];//value;
-            // console.log(JSON.stringify(obj));
           }
 
           obj['timestamp'] = timestamp;
-          // console.log(JSON.stringify(obj));
-
           const signature = await signRest(obj, secret);
           obj['signature'] = signature;
           console.log(JSON.stringify(obj));
-
           return new Response(JSON.stringify(obj));
-
-            // 'symbol': entries.get(symbol),
-            // 'side': entries.get(side),
-            // 'type': entries.get(type),
-            // 'quantity': entries.get(quantity),
-            // 'price': entries.get(price),
-            // 'recvWindow': entries.get(recvWindow),
-            // "timestamp": entries.get(timestamp),
-          // };
-
-          // return await signReq(JSON.stringify(obj), secret)
-              //  .then((res) => {
-              // return new Response(res);
-            // })
-            // .catch((err) => {
-              // return new Response(JSON.stringify(err));
-            // });
-        // 
-        // signReq(entries, secret)
-        // .then((res) => {
-        // return new Response(JSON.stringify(res));
-        // })
-        // .catch((err) => {
-        // return new Response(JSON.stringify(err));
-        // });
-        // 
-
-
-
-
-
 
         case '/test':
           const urlParams = url.searchParams.entries();
@@ -82,13 +47,8 @@ export default {
             params.push(`${key}: ${value}`);
           }
           params.push(`timestamp: ${timestamp}`);
-          signRest(params, secret)
-            .then((res) => {
-              params.push(`signature: ${res}`);
-            })
-            .catch((err) => {
-              params.push(`signature: ${err}`);
-            });
+          signRest(params, secret);
+          params.push(`signature: ${res}`);
           return new Response(JSON.stringify(params))
 
         default:

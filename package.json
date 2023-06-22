@@ -3,13 +3,15 @@
 	"version": "0.0.0",
 	"scripts": {
 		"deploy": "wrangler publish index.js",
-		"dev": "wrangler dev index.js --local",
+		"dev": "wrangler dev src/index.js --local",
+		"format": "prettier-eslint \"src/**/*.js\"",
 		"start-stackblitz": "WRANGLER_SEND_METRICS=false wrangler dev index.js --local"
 	},
 	"devDependencies": {
 		"@antfu/eslint-config": "^0.39.5",
 		"eslint": "^8.43.0",
 		"prettier": "^2.5.1",
+		"prettier-eslint-cli": "^7.1.0",
 		"wrangler": "2.0.23"
 	}
 }

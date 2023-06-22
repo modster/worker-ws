@@ -6,7 +6,8 @@
 	"insertPragma": false,
 	"requirePragma": false,
 	"jsxSingleQuote": false,
-	"bracketSameLine": false,
+	"bracketSameLine": true,
+	"reportUnusedDisableDirectives": "warn",
 	"embeddedLanguageFormatting": "auto",
 	"htmlWhitespaceSensitivity": "css",
 	"vueIndentScriptAndStyle": true,
@@ -14,6 +15,6 @@
 	"proseWrap": "preserve",
 	"trailingComma": "es5",
 	"arrowParens": "avoid",
-	"useTabs": true,
+	"useTabs": false,
 	"tabWidth": 2
 }
